@@ -48,6 +48,7 @@ class _HomeViewState extends State<HomeView> {
       cityName = jsonJoop['name'];
       final double kelvin = jsonJoop['main']['temp'];
       tempreture = WeatherData().calculteWeather(kelvin);
+      country = jsonJoop['sys']['country'];
       description = WeatherData().getDescription(num.parse(tempreture));
       icons = WeatherData().getWeatherIcon(num.parse(tempreture));
 
