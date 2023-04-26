@@ -1,10 +1,10 @@
 class WeatherData {
-  calculteWeather(double kelvin) {
+  static calculteWeather(double kelvin) {
     final data = (kelvin - 273.15).toStringAsFixed(0);
     return data;
   }
 
-  String getDescription(num temp) {
+  static String getDescription(num temp) {
     if (temp > 25) {
       return 'It\'s 🍦 time';
     } else if (temp > 20) {
@@ -16,15 +16,15 @@ class WeatherData {
     }
   }
 
-  String getWeatherIcon(num temp) {
-    if (temp > 20 - 25) {
+  static String getWeatherIcon(num temp) {
+    if (temp > 20 || temp > 19 || temp > 18) {
       return '☀️';
-    } else if (temp > 10 - 20) {
+    } else if (temp >= 10) {
       return '⛅';
     } else if (temp < 0 - 10) {
       return '🌧';
-    } else if (temp < -20 - 0) {
-      return '❄';
+    } else if (temp < 20) {
+      return '☔️';
     } else {
       return '🤷';
     }

@@ -47,10 +47,10 @@ class _HomeViewState extends State<HomeView> {
       final jsonJoop = jsonDecode(joop.body);
       cityName = jsonJoop['name'];
       final double kelvin = jsonJoop['main']['temp'];
-      tempreture = WeatherData().calculteWeather(kelvin);
+      tempreture = WeatherData.calculteWeather(kelvin);
       country = jsonJoop['sys']['country'];
-      description = WeatherData().getDescription(num.parse(tempreture));
-      icons = WeatherData().getWeatherIcon(num.parse(tempreture));
+      description = WeatherData.getDescription(num.parse(tempreture));
+      icons = WeatherData.getWeatherIcon(num.parse(tempreture));
 
       log('city name ===> ${jsonJoop['name']}');
       setState(() {
@@ -75,9 +75,9 @@ class _HomeViewState extends State<HomeView> {
         cityName = data['name'];
         country = data['sys']['country'];
         final kelvin = data['main']['temp'];
-        tempreture = WeatherData().calculteWeather(kelvin);
-        description = WeatherData().getDescription(num.parse(tempreture));
-        icons = WeatherData().getWeatherIcon(num.parse(tempreture));
+        tempreture = WeatherData.calculteWeather(kelvin);
+        description = WeatherData.getDescription(num.parse(tempreture));
+        icons = WeatherData.getWeatherIcon(num.parse(tempreture));
         setState(() {});
       }
     } catch (e) {}
@@ -214,7 +214,7 @@ class _HomeViewState extends State<HomeView> {
                         description,
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          fontSize: 60,
+                          fontSize: 40,
                           color: Colors.white,
                         ),
                       ),
