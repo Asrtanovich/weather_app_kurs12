@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:weather_app_kurs12/constants/api_keys/api_keys.dart';
+import 'package:weather_app_kurs12/data/weather_data.dart';
 import 'package:weather_app_kurs12/views/search_view.dart';
 
 class HomeView extends StatefulWidget {
@@ -15,51 +16,24 @@ class HomeView extends StatefulWidget {
   State<HomeView> createState() => _HomeViewState();
 }
 
-dynamic getDescription(dynamic _temp) {
-  if (_temp > 25) {
-    return 'Bugun issik eken';
-  } else if (_temp > 20) {
-    return 'Salkin bolot';
-  } else if (_temp < 10) {
-    return 'Suuk bolot eken 🧣 🧤';
-  } else {
-    return 'Jiluu kiinip al';
-  }
-}
-
 class _HomeViewState extends State<HomeView> {
   String cityName = '';
-  dynamic tempreture = '';
+  String tempreture = '';
+  String icons = '';
   bool isLoading = false;
   String country = '';
-  dynamic description;
+  String description = '';
   @override
   void initState() {
     showWeatherByLocation();
     super.initState();
   }
 
-  // double checkDouble(dynamic value) {
-  //   if (value is String) {
-  //     return double.parse(value);
-  //   } else {
-  //     return value;
-  //   }
-  // }
-
   Future<void> showWeatherByLocation() async {
     final position = await _getPosition();
     await getWeather(position);
-
-    // log('latitude ==> ${position.latitude}');
-    // log('longitude ==> ${position.longitude}');
   }
 
-  // CRUD
-  // Create - post
-  // Read - get
-  // Update - put
-  // Delete - delete
   Future<void> getWeather(Position position) async {
     setState(() {
       isLoading = true;
@@ -73,17 +47,14 @@ class _HomeViewState extends State<HomeView> {
       final jsonJoop = jsonDecode(joop.body);
       cityName = jsonJoop['name'];
       final double kelvin = jsonJoop['main']['temp'];
-      tempreture = (kelvin - 273.15).toStringAsFixed(0);
-      description = getDescription(tempreture);
+      tempreture = WeatherData().calculteWeather(kelvin);
+      description = WeatherData().getDescription(num.parse(tempreture));
+      icons = WeatherData().getWeatherIcon(num.parse(tempreture));
 
-      // checkDouble(tempreture = jsonJoop['main']['temp']);
       log('city name ===> ${jsonJoop['name']}');
       setState(() {
         isLoading = false;
       });
-
-      // log('  response ==>  ${joop.body}');
-      // log('  response json ==>  ${jsonJoop}');
     } catch (e) {
       log('$e');
       throw Exception(e);
@@ -102,8 +73,10 @@ class _HomeViewState extends State<HomeView> {
         log('data ===> ${data}');
         cityName = data['name'];
         country = data['sys']['country'];
-        final double kelvin = data['main']['temp'];
-        tempreture = (kelvin - 273.15).toStringAsFixed(0);
+        final kelvin = data['main']['temp'];
+        tempreture = WeatherData().calculteWeather(kelvin);
+        description = WeatherData().getDescription(num.parse(tempreture));
+        icons = WeatherData().getWeatherIcon(num.parse(tempreture));
         setState(() {});
       }
     } catch (e) {}
@@ -201,9 +174,9 @@ class _HomeViewState extends State<HomeView> {
                   children: [
                     Positioned(
                       top: 100,
-                      left: 140,
+                      left: 160,
                       child: Text(
-                        '⛅',
+                        icons,
                         style: TextStyle(
                           fontSize: 60,
                           color: Colors.white,
@@ -237,7 +210,7 @@ class _HomeViewState extends State<HomeView> {
                       left: 0,
                       right: 50,
                       child: Text(
-                        description ?? '',
+                        description,
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 60,
