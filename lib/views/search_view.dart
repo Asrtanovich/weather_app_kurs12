@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 
 class SearchView extends StatelessWidget {
@@ -13,7 +11,7 @@ class SearchView extends StatelessWidget {
         width: double.infinity,
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/images/bg_image.jpg'),
+            image: AssetImage('assets/images/облака.jpg'),
             fit: BoxFit.cover,
           ),
         ),
@@ -33,21 +31,27 @@ class SearchView extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 30,
-                  color: Colors.white,
+                  color: Colors.black,
                   fontWeight: FontWeight.w600,
                 ),
                 decoration: InputDecoration(
-                  hintText: 'Shaardy jaz',
+                  hintText: 'Поиск города',
                   hintStyle: TextStyle(
-                    fontSize: 25,
+                    fontSize: 28,
                     fontWeight: FontWeight.w400,
                   ),
                   enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(width: 2, color: Colors.greenAccent),
+                    borderSide: BorderSide(
+                      width: 3,
+                      color: Colors.black,
+                    ),
                     borderRadius: BorderRadius.circular(50.0),
                   ),
                   focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(width: 2, color: Colors.purple),
+                    borderSide: BorderSide(
+                      width: 3,
+                      color: Color.fromARGB(154, 69, 66, 66),
+                    ),
                     borderRadius: BorderRadius.circular(50.0),
                   ),
                 ),
@@ -57,26 +61,28 @@ class SearchView extends StatelessWidget {
               height: 30,
             ),
             TextButton(
-                style: ButtonStyle(
-                  padding: MaterialStateProperty.all(
-                      EdgeInsets.symmetric(horizontal: 35, vertical: 15)),
-                  backgroundColor: MaterialStateProperty.all(Colors.cyan),
+              style: ButtonStyle(
+                padding: MaterialStateProperty.all(
+                  EdgeInsets.symmetric(horizontal: 25, vertical: 10),
                 ),
-                onPressed: () {
-                  if (_controller.text.isNotEmpty) {
-                    Navigator.pop(context, _controller.text);
-                  }
+                backgroundColor: MaterialStateProperty.all(Colors.cyan),
+              ),
+              onPressed: () {
+                if (_controller.text.isNotEmpty) {
+                  Navigator.pop(context, _controller.text);
+                }
 
-                  FocusManager.instance.primaryFocus?.unfocus();
-                  // log('${_controller.text}');
-                },
-                child: Text(
-                  'Shaardy tap',
-                  style: TextStyle(
-                    fontSize: 30,
-                    color: Colors.white,
-                  ),
-                ))
+                FocusManager.instance.primaryFocus?.unfocus();
+                // log('${_controller.text}');
+              },
+              child: Text(
+                'Искать',
+                style: TextStyle(
+                  fontSize: 30,
+                  color: Colors.white,
+                ),
+              ),
+            )
           ],
         ),
       ),

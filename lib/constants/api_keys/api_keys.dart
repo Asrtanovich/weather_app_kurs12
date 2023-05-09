@@ -1,3 +1,4 @@
 class ApiKeys {
-  static const myApiKey = 'c3aa0301d9353c81b3f8e8254ca12e23';
+  static const myApiKey = '1ec172ee584d20c7e77c9f1482b90aed';
 }
+// https://api.openweathermap.org/data/2.5/weather?lat=${position.latitude}&lon=${position.longitude}&appid=${ApiKeys.myApiKey}

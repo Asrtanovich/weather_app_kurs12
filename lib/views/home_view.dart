@@ -1,13 +1,16 @@
 import 'dart:convert';
 import 'dart:developer';
+// import 'dart:math';
 
 import 'package:http/http.dart' as http;
 
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 import 'package:geolocator/geolocator.dart';
 import 'package:weather_app_kurs12/constants/api_keys/api_keys.dart';
 import 'package:weather_app_kurs12/data/weather_data.dart';
 import 'package:weather_app_kurs12/views/search_view.dart';
+
+import '../datetime/date_tame.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -22,7 +25,8 @@ class _HomeViewState extends State<HomeView> {
   String icons = '';
   bool isLoading = false;
   String country = '';
-  String description = '';
+  // String description = '';
+
   @override
   void initState() {
     showWeatherByLocation();
@@ -31,6 +35,8 @@ class _HomeViewState extends State<HomeView> {
 
   Future<void> showWeatherByLocation() async {
     final position = await _getPosition();
+    // log('latitude ===> ${position.latitude}');
+    // log('longitude ===> ${position.longitude}');
     await getWeather(position);
   }
 
@@ -42,6 +48,7 @@ class _HomeViewState extends State<HomeView> {
       final client = http.Client();
       final url =
           'https://api.openweathermap.org/data/2.5/weather?lat=${position.latitude}&lon=${position.longitude}&appid=${ApiKeys.myApiKey}';
+
       Uri uri = Uri.parse(url);
       final joop = await client.get(uri);
       final jsonJoop = jsonDecode(joop.body);
@@ -49,7 +56,7 @@ class _HomeViewState extends State<HomeView> {
       final double kelvin = jsonJoop['main']['temp'];
       tempreture = WeatherData.calculteWeather(kelvin);
       country = jsonJoop['sys']['country'];
-      description = WeatherData.getDescription(num.parse(tempreture));
+      // description = WeatherData.getDescription(num.parse(tempreture));
       icons = WeatherData.getWeatherIcon(num.parse(tempreture));
 
       log('city name ===> ${jsonJoop['name']}');
@@ -73,10 +80,10 @@ class _HomeViewState extends State<HomeView> {
         final data = jsonDecode(response.body);
         log('data ===> ${data}');
         cityName = data['name'];
-        country = data['sys']['country'];
+        // country = data['sys']['country'];
         final kelvin = data['main']['temp'];
         tempreture = WeatherData.calculteWeather(kelvin);
-        description = WeatherData.getDescription(num.parse(tempreture));
+        // description = WeatherData.getDescription(num.parse(tempreture));
         icons = WeatherData.getWeatherIcon(num.parse(tempreture));
         setState(() {});
       }
@@ -150,7 +157,7 @@ class _HomeViewState extends State<HomeView> {
                 setState(() {});
               },
               child: Icon(
-                Icons.location_city,
+                Icons.search,
                 size: 50,
               ),
             ),
@@ -160,89 +167,379 @@ class _HomeViewState extends State<HomeView> {
           width: double.infinity,
           decoration: BoxDecoration(
             image: DecorationImage(
-              image: AssetImage('assets/images/bg_image.jpg'),
+              image: AssetImage('assets/images/cloud.jpg'),
               fit: BoxFit.cover,
             ),
           ),
           child: isLoading == true
               ? Center(
                   child: CircularProgressIndicator(
-                    color: Colors.red,
-                    backgroundColor: Colors.green,
+                    color: Colors.white,
+                    backgroundColor: Colors.black,
                   ),
                 )
               : Stack(
                   children: [
+                    // Positioned(
+                    //   top: 155,
+                    //   left: 230,
+                    //   // height: 106,
+                    //   child: Text(
+                    //     icons,
+                    //     style: TextStyle(
+                    //       fontSize: 50,
+                    //       color: Colors.white,
+                    //     ),
+                    //   ),
+                    // ),
+                    // Positioned(
+                    //   top: 170,
+                    //   left: 100,
+                    //   right: 100,
+                    //   child: Text(
+                    //     '$tempreture°',
+                    //     style: TextStyle(
+                    //       fontSize: 50,
+                    //       color: Colors.white,
+                    //     ),
+                    //     textAlign: TextAlign.center,
+                    //   ),
+                    // ),
                     Positioned(
-                      top: 100,
-                      left: 160,
-                      child: Text(
-                        icons,
-                        style: TextStyle(
-                          fontSize: 60,
-                          color: Colors.white,
+                      top: 390,
+                      left: 20,
+                      right: 20,
+                      child: Container(
+                        height: 320,
+                        decoration: BoxDecoration(
+                          color:
+                              Color.fromARGB(255, 23, 23, 23).withOpacity(0.9),
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(10),
+                          ),
+                        ),
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: Text(
+                                    'Понедельник',
+                                    style: TextStyle(
+                                      height: 1,
+                                      fontSize: 20,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w800,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 7,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: Text(
+                                    '$tempreture',
+                                    style: TextStyle(
+                                      height: 1,
+                                      fontSize: 25,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 50,
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: Text(
+                                    'Вторник',
+                                    style: TextStyle(
+                                      height: 1,
+                                      fontSize: 20,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 55,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: Text(
+                                    'data',
+                                    style: TextStyle(
+                                      height: 1,
+                                      fontSize: 25,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: Text(
+                                    'Среда',
+                                    style: TextStyle(
+                                      height: 1,
+                                      fontSize: 20,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 77,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: Text(
+                                    'data',
+                                    style: TextStyle(
+                                      height: 1,
+                                      fontSize: 25,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: Text(
+                                    'Четверг',
+                                    style: TextStyle(
+                                      height: 1,
+                                      fontSize: 20,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 60,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: Text(
+                                    'data',
+                                    style: TextStyle(
+                                      height: 1,
+                                      fontSize: 25,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: Text(
+                                    'Пятница',
+                                    style: TextStyle(
+                                      height: 1,
+                                      fontSize: 20,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 55,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: Text(
+                                    'data',
+                                    style: TextStyle(
+                                      height: 1,
+                                      fontSize: 25,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: Text(
+                                    'Суббота',
+                                    style: TextStyle(
+                                      height: 1,
+                                      fontSize: 20,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 60,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: Text(
+                                    'data',
+                                    style: TextStyle(
+                                      height: 1,
+                                      fontSize: 25,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: Text(
+                                    'Воскресенье',
+                                    style: TextStyle(
+                                      height: 1,
+                                      fontSize: 20,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 15,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: Text(
+                                    'data',
+                                    style: TextStyle(
+                                      height: 1,
+                                      fontSize: 25,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    // Positioned(
+                    //   top: 90,
+                    //   left: 30,
+                    //   right: 30,
+                    //   child: Text(
+                    //     "📍${cityName}",
+                    //     textAlign: TextAlign.center,
+                    //     style: TextStyle(
+                    //       fontSize: 30,
+                    //       color: Colors.white,
+                    //       fontWeight: FontWeight.bold,
+                    //     ),
+                    //   ),
+                    // ),
+                    Positioned(
+                      top: 180,
+                      left: 20,
+                      right: 20,
+                      child: Container(
+                        height: 180,
+                        width: 130,
+                        decoration: BoxDecoration(
+                          color:
+                              Color.fromARGB(255, 23, 23, 23).withOpacity(0.9),
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(10),
+                          ),
+                        ),
+                        child: Column(
+                          // mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SizedBox(
+                              width: 500,
+                              child: Text(
+                                "📍${cityName}",
+                                // textAlign: TextAlign.right,
+                                style: TextStyle(
+                                  fontSize: 28,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            SizedBox(
+                              width: 500,
+                              child: Text(
+                                '$formattedDate',
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  color: Color.fromARGB(255, 96, 90, 90),
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                // textAlign: TextAlign.center,
+                              ),
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Row(
+                              children: [
+                                Text(
+                                  icons,
+                                  style: TextStyle(
+                                    fontSize: 50,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                Text(
+                                  '$tempreture°',
+                                  style: TextStyle(
+                                    fontSize: 50,
+                                    color: Colors.white,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
                       ),
                     ),
                     Positioned(
-                      top: 130,
-                      left: 40,
-                      child: Text(
-                        '$tempreture\u2103',
-                        style: TextStyle(
-                          fontSize: 60,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      top: 50,
-                      left: 40,
-                      child: Text(
-                        'Country: $country ',
-                        style: TextStyle(
-                          fontSize: 30,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      top: 280,
-                      left: 0,
-                      right: 50,
-                      child: Text(
-                        description,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 40,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      top: 320,
-                      // left: ,
-                      right: 0,
-                      child: Text(
-                        '👚',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 60,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      top: 500,
+                      top: 90,
                       left: 30,
-                      // right: 0,
+                      right: 30,
                       child: Text(
-                        cityName,
+                        "Погода",
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                            fontSize: 40,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold),
+                          fontSize: 47,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                   ],
