@@ -39,22 +39,22 @@ class HomeView extends StatelessWidget {
             ),
           ],
         ),
-        body: Container(
-          width: double.infinity,
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage('assets/images/bg_image.jpg'),
-              fit: BoxFit.cover,
-            ),
-          ),
-          child: controller.isLoading1 == controller.isLoading1!.isLoading
-              ? Center(
-                  child: Obx(() => CircularProgressIndicator(
-                        color: Colors.red,
-                        backgroundColor: Colors.green,
-                      )),
-                )
-              : Stack(
+        body: controller.isLoading.value == true
+            ? Center(
+                child: Obx(() => CircularProgressIndicator(
+                      color: Colors.red,
+                      backgroundColor: Colors.green,
+                    )),
+              )
+            : Container(
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage('assets/images/bg_image.jpg'),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                child: Stack(
                   children: [
                     Positioned(
                       top: 100,
@@ -130,7 +130,7 @@ class HomeView extends StatelessWidget {
                     ),
                   ],
                 ),
-        ),
+              ),
       ),
     );
   }

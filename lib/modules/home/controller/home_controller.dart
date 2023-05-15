@@ -12,8 +12,10 @@ class HomeController extends GetxController with StateMixin {
   RxString cityName = ''.obs;
   RxString tempreture = ''.obs;
   RxString icons = ''.obs;
-  RxStatus? isLoading1 = RxStatus.loading();
+  RxBool isLoading = false.obs;
+  // RxStatus? isLoading1 = RxStatus.loading();
   // RxBool isLoading = false.obs;
+
   RxString country = ''.obs;
   RxString description = ''.obs;
 
@@ -29,7 +31,7 @@ class HomeController extends GetxController with StateMixin {
   }
 
   Future<void> getWeather(Position position) async {
-    isLoading1!.isLoading;
+    isLoading.value = true;
 
     try {
       final client = http.Client();
@@ -47,9 +49,8 @@ class HomeController extends GetxController with StateMixin {
       icons.value = WeatherData.getWeatherIcon(num.parse(tempreture.value));
 
       log('city name ===> ${jsonJoop['name']}');
-      // isLoading.value = false;
-      // RxStatus.success();
-      isLoading1!.isSuccess;
+
+      isLoading.value = false;
     } catch (e) {
       log('$e');
       throw Exception(e);
@@ -57,6 +58,7 @@ class HomeController extends GetxController with StateMixin {
   }
 
   Future<void> getSearchedCityName(String typedCityName) async {
+    isLoading.value = true;
     final client = http.Client();
     try {
       Uri uri = Uri.parse(
@@ -73,6 +75,7 @@ class HomeController extends GetxController with StateMixin {
         description.value =
             WeatherData.getDescription(num.parse(tempreture.value));
         icons.value = WeatherData.getWeatherIcon(num.parse(tempreture.value));
+        isLoading.value = false;
       }
     } catch (e) {}
   }
