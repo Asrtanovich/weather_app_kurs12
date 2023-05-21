@@ -6,13 +6,13 @@ class WeatherData {
 
   static String getDescription(num temp) {
     if (temp > 25) {
-      return 'It\'s 🍦 time';
+      return 'Это 🍦 время';
     } else if (temp > 20) {
-      return 'Time for shorts and 👕';
+      return 'Время для шорт и 👕';
     } else if (temp < 10) {
       return 'Сага шарф🧣 жана перчатки керек🧤';
     } else {
-      return 'Bring a 🧥 just in case';
+      return 'Берите 🧥 на всякий случай';
     }
   }
 

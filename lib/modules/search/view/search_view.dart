@@ -15,7 +15,7 @@ class SearchView extends StatelessWidget {
         width: double.infinity,
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/images/bg_image.jpg'),
+            image: AssetImage('assets/images/sunset.jpg'),
             fit: BoxFit.cover,
           ),
         ),
@@ -39,7 +39,7 @@ class SearchView extends StatelessWidget {
                   fontWeight: FontWeight.w600,
                 ),
                 decoration: InputDecoration(
-                  hintText: 'Shaardy jaz',
+                  hintText: 'Поискь города',
                   hintStyle: TextStyle(
                     fontSize: 25,
                     fontWeight: FontWeight.w400,
@@ -71,7 +71,7 @@ class SearchView extends StatelessWidget {
                   FocusManager.instance.primaryFocus?.unfocus();
                 },
                 child: Text(
-                  'Shaardy tap',
+                  'Искать',
                   style: TextStyle(
                     fontSize: 30,
                     color: Colors.white,
