@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:get/instance_manager.dart';
 import 'package:get/route_manager.dart';
@@ -15,7 +13,11 @@ class SearchView extends StatelessWidget {
         width: double.infinity,
         decoration: BoxDecoration(
           image: DecorationImage(
+<<<<<<< HEAD:lib/modules/search/view/search_view.dart
             image: AssetImage('assets/images/sunset.jpg'),
+=======
+            image: AssetImage('assets/images/облака.jpg'),
+>>>>>>> 710a733557a881870b4a8b4dd05e004cddf704a7:lib/views/search_view.dart
             fit: BoxFit.cover,
           ),
         ),
@@ -35,21 +37,31 @@ class SearchView extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 30,
-                  color: Colors.white,
+                  color: Colors.black,
                   fontWeight: FontWeight.w600,
                 ),
                 decoration: InputDecoration(
+<<<<<<< HEAD:lib/modules/search/view/search_view.dart
                   hintText: 'Поискь города',
+=======
+                  hintText: 'Поиск города',
+>>>>>>> 710a733557a881870b4a8b4dd05e004cddf704a7:lib/views/search_view.dart
                   hintStyle: TextStyle(
-                    fontSize: 25,
+                    fontSize: 28,
                     fontWeight: FontWeight.w400,
                   ),
                   enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(width: 2, color: Colors.greenAccent),
+                    borderSide: BorderSide(
+                      width: 3,
+                      color: Colors.black,
+                    ),
                     borderRadius: BorderRadius.circular(50.0),
                   ),
                   focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(width: 2, color: Colors.purple),
+                    borderSide: BorderSide(
+                      width: 3,
+                      color: Color.fromARGB(154, 69, 66, 66),
+                    ),
                     borderRadius: BorderRadius.circular(50.0),
                   ),
                 ),
@@ -59,11 +71,11 @@ class SearchView extends StatelessWidget {
               height: 30,
             ),
             TextButton(
-                style: ButtonStyle(
-                  padding: MaterialStateProperty.all(
-                      EdgeInsets.symmetric(horizontal: 35, vertical: 15)),
-                  backgroundColor: MaterialStateProperty.all(Colors.cyan),
+              style: ButtonStyle(
+                padding: MaterialStateProperty.all(
+                  EdgeInsets.symmetric(horizontal: 25, vertical: 10),
                 ),
+<<<<<<< HEAD:lib/modules/search/view/search_view.dart
                 onPressed: () {
                   if (_controller.text.isNotEmpty) {
                     Get.back(result: _controller.text);
@@ -77,6 +89,26 @@ class SearchView extends StatelessWidget {
                     color: Colors.white,
                   ),
                 ))
+=======
+                backgroundColor: MaterialStateProperty.all(Colors.cyan),
+              ),
+              onPressed: () {
+                if (_controller.text.isNotEmpty) {
+                  Navigator.pop(context, _controller.text);
+                }
+
+                FocusManager.instance.primaryFocus?.unfocus();
+                // log('${_controller.text}');
+              },
+              child: Text(
+                'Искать',
+                style: TextStyle(
+                  fontSize: 30,
+                  color: Colors.white,
+                ),
+              ),
+            )
+>>>>>>> 710a733557a881870b4a8b4dd05e004cddf704a7:lib/views/search_view.dart
           ],
         ),
       ),
